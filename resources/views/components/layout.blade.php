@@ -14,6 +14,7 @@
     <nav class="bg-accent flex justify-end px-5 text-bgc text-center py-7 gap-4 items-center">
         <a href="{{ route('home') }}"><p>BERANDA</p></a>
         <a href="{{ route('about') }}"><p>TENTANG KAMI</p></a>
+        <a href="{{ route('sessions.index') }}"><p>SESSIONS</p></a>
         @auth
             <div class="relative">
                 <button id="dropdownButton" class="inline-flex items-center px-3 border rounded-xl py-2">

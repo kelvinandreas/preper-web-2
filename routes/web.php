@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/sessions', [SessionController::class, 'index'])->name('sessions.index');
+    Route::get('/sessions/request', [SessionController::class, 'request'])->name('sessions.request');
+    Route::post('/sessions/request', [SessionController::class, 'storeRequest'])->name('sessions.storeRequest');
+    Route::get('/sessions/available', [SessionController::class, 'available'])->name('sessions.available');
+    Route::post('/sessions/{session}/accept', [SessionController::class, 'accept'])->name('sessions.accept');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

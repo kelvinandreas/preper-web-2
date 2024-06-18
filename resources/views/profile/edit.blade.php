@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layout>
     <header class="bg-accent relative h-36">
         <div class="absolute bottom-0 px-5">
             <div class="text-bgc gap-5 flex flex-1 flex-col-reverse sm:flex-row justify-between items-end px=5">
@@ -31,4 +31,4 @@
 
     <script src="//unpkg.com/alpinejs" defer></script>
 
-</x-app-layout>
+</x-layout>

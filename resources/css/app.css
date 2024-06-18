@@ -4,4 +4,8 @@
 
 body {
     font-family: 'Poppins';
+    @apply flex flex-col min-h-screen;
+}
+main {
+    @apply flex-grow;
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Trmentoringschedule extends Model
 {
@@ -21,6 +22,15 @@ class Trmentoringschedule extends Model
         'MentorUserId',
         'UniqueCode'
     ];
+
+    public static function boot()
+     {
+         parent::boot();
+
+         self::creating(function ($model) {
+             $model->{$model->getKeyName()} = (string) Uuid::uuid4();
+         });
+     }
 
     public function mentee()
     {

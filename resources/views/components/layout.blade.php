@@ -10,12 +10,12 @@
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="bg-bgc">
+<body class="bg-bgc flex flex-col">
     <nav class="bg-accent flex justify-end px-5 text-bgc text-center py-7 gap-4 items-center">
         <a href="{{ route('home') }}"><p>BERANDA</p></a>
         <a href="{{ route('about') }}"><p>TENTANG KAMI</p></a>
-        <a href="{{ route('sessions.index') }}"><p>SESSIONS</p></a>
         @auth
+            <a href="{{ route('sessions.index') }}"><p>SESSIONS</p></a>
             <div class="relative">
                 <button id="dropdownButton" class="inline-flex items-center px-3 border rounded-xl py-2">
                     <div>{{ Auth::user()->UserName }}</div>
@@ -41,7 +41,9 @@
         @endauth
     </nav>
 
-    {{ $slot }}
+    <main class="flex-grow">
+        {{ $slot }}
+    </main>
 
     <footer class="bg-accent flex flex-col gap-y-2 text-bgc text-center p-5">
         <div class="flex justify-center">

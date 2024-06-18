@@ -12,46 +12,23 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
-        'UserName',
-        'email',
-        'password',
-        'UserPhoneNumber',
-        'UserPoint',
-        'RoleId',
-        'SubjectId',
-        'UserRankId',
-        'IsValid'
+        'UserName', 'email', 'password', 'UserPhoneNumber', 'UserPoint', 'RoleId', 'SubjectId', 'UserRankId', 'IsValid'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public static function boot()
+    {
+        parent::boot();
 
-     public static function boot()
-     {
-         parent::boot();
-
-         self::creating(function ($model) {
-             $model->{$model->getKeyName()} = (string) Uuid::uuid4();
-         });
-     }
+        self::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Uuid::uuid4();
+        });
+    }
 
     protected function casts(): array
     {

@@ -2,7 +2,7 @@
     <header class="bg-accent relative h-36">
         <div class="absolute bottom-0 px-5">
             <div class="text-bgc">
-                <p class="text-9xl"><b>tentang kami</b></p>
+                <p class="text-9xl"><b>Tentang Kami</b></p>
             </div>
         </div>
     </header>

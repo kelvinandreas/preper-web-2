@@ -6,6 +6,9 @@ use App\Models\Mssubject;
 use App\Models\TrmentoringSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SessionController extends Controller
 {
@@ -42,34 +45,63 @@ class SessionController extends Controller
 
     public function storeRequest(Request $request)
     {
-        $request->validate([
-            'subject' => 'required',
-            'specificTopic' => 'required|string|max:255',
-            'batch' => 'required|string',
+        $validatedData = $request->validate([
+            'batch' => 'required|string|in:Batch 1,Batch 2,Batch 3,Batch 4,Batch 5,Batch 6',
+            'subject' => 'required|string|exists:mssubject,SubjectId',
+            'specificTopic' => 'nullable|string|max:255',
         ]);
 
-        TrmentoringSchedule::create([
-            'menteeUserId' => Auth::id(),
-            'subjectId' => $request->subject,
-            'specificTopic' => $request->specificTopic,
-            'scheduleTime' => $this->getBatchTime($request->batch),
+        $batchTimes = [
+            'Batch 1' => '07:20',
+            'Batch 2' => '09:20',
+            'Batch 3' => '11:20',
+            'Batch 4' => '13:20',
+            'Batch 5' => '15:20',
+            'Batch 6' => '17:20',
+        ];
+
+        $startTime = $batchTimes[$validatedData['batch']];
+        $meetingTime = now()->format('Y-m-d') . ' ' . $startTime . ':00';
+
+        // Verify that the authenticated user exists
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not authenticated.');
+        }
+        // dd($user->id);
+
+        TrMentoringSchedule::create([
+            'TrMentoringScheduleId' => (string) Str::uuid(),
+            'IsDone' => false,
+            'MeetingTime' => $meetingTime,
+            'MeetingLink' => $this->generateMeetingLink(),
+            'MenteeUserId' => $user->id,
+            'MentorUserId' => null,
+            'UniqueCode' => $this->getUniqueCode(),
+            'SubjectId' => $validatedData['subject'],
+            'SpecificTopic' => $validatedData['specificTopic'] ?? '',
         ]);
 
         return redirect()->route('sessions.index')->with('status', 'Session requested successfully.');
     }
 
-    private function getBatchTime($batch)
+    private function generateMeetingLink()
     {
-        $batchTimes = [
-            'Batch 1' => '07:20 - 09:00',
-            'Batch 2' => '09:20 - 11:00',
-            'Batch 3' => '11:20 - 13:00',
-            'Batch 4' => '13:20 - 15:00',
-            'Batch 5' => '15:20 - 17:00',
-            'Batch 6' => '17:20 - 19:00',
-        ];
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $linkLength = 10;
+        $googleMeetLink = 'https://meet.google.com/';
 
-        return $batchTimes[$batch] ?? null;
+        for ($i = 0; $i < $linkLength; $i++) {
+            $randomIndex = random_int(0, strlen($characters) - 1);
+            $googleMeetLink .= $characters[$randomIndex];
+        }
+
+        return $googleMeetLink;
+    }
+
+    private function getUniqueCode()
+    {
+        return strtoupper(Str::random(10));
     }
 
     public function available()

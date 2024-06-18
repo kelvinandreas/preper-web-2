@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -29,6 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        dd('CSRF Token:', ['token' => $request->input('_token')]);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -42,7 +44,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'UserPhoneNumber' => $request->phonenumber,
             'IsValid' => false,
-            'UserPoint' => 0
+            'UserPoint' => 0,
+            'RoleId' => '1'
         ]);
 
         event(new Registered($user));

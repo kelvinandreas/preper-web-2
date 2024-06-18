@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('trmentoringschedule', function (Blueprint $table) {
             $table->string('TrMentoringScheduleId', 191)->primary();
-            $table->string('MentoringSession', 191);
             $table->string('MenteeUserId', 191)->nullable();
             $table->string('MentorUserId', 191)->nullable();
             $table->string('UniqueCode', 191)->unique();

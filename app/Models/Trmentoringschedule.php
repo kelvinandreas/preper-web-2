@@ -20,6 +20,7 @@ class Trmentoringschedule extends Model
         'MenteeUserId',
         'MentorUserId',
         'UniqueCode',
+        'MenteeReview',
         'IsDone',
         'MeetingLink',
         'SubjectId',

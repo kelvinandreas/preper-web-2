@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('UniqueCode', 191)->unique();
             $table->string('MeetingTime', 191);
             $table->string('MeetingLink', 191)->nullable();
+            $table->string('MenteeReview', 191)->nullable();
             $table->string('SubjectId');
             $table->string('SpecificTopic', 191)->nullable();
             $table->boolean('IsDone')->default(false);

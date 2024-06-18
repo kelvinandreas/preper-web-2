@@ -18,21 +18,23 @@
                     <x-text-input id="fullName" name="fullName" type="text" class="mt-1 block w-full border-2 border-accent rounded-lg p-2 bg-accent text-white" value="{{ Auth::user()->UserName }}" readonly />
                 </div>
 
-                <div>
+                <div class="hidden">
                     <x-input-label for="whatsapp" :value="__('No WhatsApp')" />
                     <x-text-input id="whatsapp" name="whatsapp" type="text" class="mt-1 block w-full border-2 border-accent rounded-lg p-2 bg-accent text-white" value="{{ Auth::user()->UserPhoneNumber }}" readonly />
                 </div>
 
                 <div>
-                    <x-input-label :value="__('Pilih topik yang ingin anda pelajari:')" />
-                    @foreach($subjects as $subject)
-                        <div class="form-check mb-2">
-                            <input class="mr-2" type="radio" id="subject{{ $subject->SubjectId }}" name="subject" value="{{ $subject->SubjectId }}" required>
-                            <label class="form-check-label" for="subject{{ $subject->SubjectId }}">
-                                {{ $subject->SubjectName }}
-                            </label>
-                        </div>
-                    @endforeach
+                    <x-input-label class="mb-2" :value="__('Pilih topik yang ingin anda pelajari:')" />
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach($subjects as $subject)
+                            <div class="form-check mb-2">
+                                <input class="mr-2" type="radio" id="subject{{ $subject->SubjectId }}" name="subject" value="{{ $subject->SubjectId }}" required>
+                                <label class="form-check-label" for="subject{{ $subject->SubjectId }}">
+                                    {{ $subject->SubjectName }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div>

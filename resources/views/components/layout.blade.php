@@ -9,13 +9,18 @@
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body class="bg-bgc flex flex-col">
     <nav class="bg-accent flex justify-end px-5 text-bgc text-center py-7 gap-4 items-center">
         <a href="{{ route('home') }}"><p>BERANDA</p></a>
         <a href="{{ route('about') }}"><p>TENTANG KAMI</p></a>
         @auth
-            <a href="{{ route('sessions.index') }}"><p>SESSIONS</p></a>
+        <a href="{{ route('sessions.index') }}"><p>SESI</p></a>
+            @if (auth()->user()->RoleId == '3')
+            <a href="{{ route('user.settings') }}"><p>USER SETTINGS</p></a>
+            @endif
             <div class="relative">
                 <button id="dropdownButton" class="inline-flex items-center px-3 border rounded-xl py-2">
                     <div>{{ Auth::user()->UserName }}</div>

@@ -16,27 +16,31 @@ class SessionController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->RoleId == 1) { // Mentee
+        if ($user->RoleId == 1 || $user->RoleId == 3) { // Mentee
             $previousSessions = TrmentoringSchedule::where('MenteeUserId', $user->id)
                 ->where('MeetingTime', '<', now())
                 ->with('mentor')
+                ->orderBy('MeetingTime', 'desc')
                 ->get();
 
             $upcomingSessions = TrmentoringSchedule::where('MenteeUserId', $user->id)
                 ->where('MeetingTime', '>=', now())
                 ->with('mentor')
+                ->orderBy('MeetingTime', 'asc')
                 ->get();
 
             return view('sessions.index', compact('previousSessions', 'upcomingSessions'));
-        } else if ($user->RoleId == 2) { // Mentor
+        } else if ($user->RoleId == 2 || $user->RoleId == 3) { // Mentor
             $previousSessions = TrmentoringSchedule::where('MentorUserId', $user->id)
                 ->where('MeetingTime', '<', now())
                 ->with('mentee')
+                ->orderBy('MeetingTime', 'desc')
                 ->get();
 
             $upcomingSessions = TrmentoringSchedule::where('MentorUserId', $user->id)
                 ->where('MeetingTime', '>=', now())
                 ->with('mentee')
+                ->orderBy('MeetingTime', 'asc')
                 ->get();
 
             return view('sessions.index', compact('previousSessions', 'upcomingSessions'));
@@ -92,7 +96,7 @@ class SessionController extends Controller
         return redirect()->route('sessions.index')->with('status', 'Session requested successfully.');
     }
 
-    private function generateMeetingLink()
+    public function generateMeetingLink()
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $linkLength = 10;
@@ -119,23 +123,13 @@ class SessionController extends Controller
         return $uniqueCode;
     }
 
-    private function getBatchTime($batch)
-    {
-        $batchTimes = [
-            'Batch 1' => '07:20 - 09:00',
-            'Batch 2' => '09:20 - 11:00',
-            'Batch 3' => '11:20 - 13:00',
-            'Batch 4' => '13:20 - 15:00',
-            'Batch 5' => '15:20 - 17:00',
-            'Batch 6' => '17:20 - 19:00',
-        ];
-
-        return $batchTimes[$batch] ?? null;
-    }
-
     public function available()
     {
-        $availableSessions = TrmentoringSchedule::whereNull('MentorUserId')->with('mentee')->get();
+        $availableSessions = TrmentoringSchedule::whereNull('MentorUserId')
+            ->with('mentee')
+            ->orderBy('MeetingTime', 'asc')
+            ->get();
+
         return view('sessions.available', compact('availableSessions'));
     }
 
@@ -145,5 +139,17 @@ class SessionController extends Controller
         $session->meetingLink =  $this->generateMeetingLink();
         $session->save();
         return redirect()->route('sessions.index')->with('status', 'Session accepted successfully.');
+    }
+
+    public function storeReview(Request $request, TrmentoringSchedule $session)
+    {
+        $validatedData = $request->validate([
+            'MenteeReview' => 'required|string|max:1000',
+        ]);
+
+        $session->MenteeReview = $validatedData['MenteeReview'];
+        $session->save();
+
+        return redirect()->route('sessions.index')->with('status', 'Review submitted successfully.');
     }
 }

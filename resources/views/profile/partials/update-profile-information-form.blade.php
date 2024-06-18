@@ -47,25 +47,27 @@
 
                 <div class="mb-3" id="subject-container" :style="{ display: role === 'mentor' ? 'block' : 'none' }" x-data="{ selectedSubject: '{{ $user->SubjectId }}' }">
                     <label class="block mb-2">Pilih topik yang anda kuasai:</label>
-                    @foreach($subjects as $subject)
-                        <div class="form-check mb-2">
-                            <input
-                                class="mr-2 hidden"
-                                type="radio"
-                                id="subject{{ $subject->SubjectId }}"
-                                name="subject"
-                                value="{{ $subject->SubjectId }}"
-                                x-model="selectedSubject"
-                            >
-                            <label class="form-check-label flex items-center gap-2 cursor-pointer" for="subject{{ $subject->SubjectId }}">
-                                <div
-                                    :class="{ 'bg-accent': selectedSubject == '{{ $subject->SubjectId }}', 'border border-accent': selectedSubject != '{{ $subject->SubjectId }}' }"
-                                    class="inline-block h-5 w-5 rounded-md border-2"
-                                ></div>
-                                <span>{{ $subject->SubjectName }}</span>
-                            </label>
-                        </div>
-                    @endforeach
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach($subjects as $subject)
+                            <div class="form-check mb-2">
+                                <input
+                                    class="mr-2 hidden"
+                                    type="radio"
+                                    id="subject{{ $subject->SubjectId }}"
+                                    name="subject"
+                                    value="{{ $subject->SubjectId }}"
+                                    x-model="selectedSubject"
+                                >
+                                <label class="form-check-label flex items-center gap-2 cursor-pointer" for="subject{{ $subject->SubjectId }}">
+                                    <div
+                                        :class="{ 'bg-accent': selectedSubject == '{{ $subject->SubjectId }}', 'border border-accent': selectedSubject != '{{ $subject->SubjectId }}' }"
+                                        class="inline-block h-5 w-5 rounded-md border-2"
+                                    ></div>
+                                    <span>{{ $subject->SubjectName }}</span>
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -81,7 +83,7 @@
                         >{{ __('Saved.') }}</p>
                     @endif
                     <p class="mt-1 text-sm text-gray-600" :style="{ display: role === 'mentor' ? 'block' : 'none' }">
-                        {{ __('Jika anda baru pertama kali menjadi mentor, mohon kirimkan CV anda ke email ') }}<span class="text-blue-500">preperverif@preper.com</span>
+                        {{ __('Jika anda baru pertama kali menjadi mentor, mohon kirimkan CV anda ke email ') }}<span class="text-blue-500">preperverif@preper.com</span> untuk keperluan verifikasi.
                     </p>
                 </div>
             </form>

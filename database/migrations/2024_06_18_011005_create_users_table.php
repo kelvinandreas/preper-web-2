@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->string('id', 191)->primary();
+            $table->uuid('id')->primary(); // Menggunakan UUID sebagai primary key
             $table->string('UserName', 191)->nullable();
             $table->string('UserPhoneNumber', 191)->unique();
             $table->string('email', 191)->unique();
             $table->string('password');
             $table->boolean('IsValid');
             $table->integer('UserPoint');
-            $table->string('RoleId', 191)->nullable();
-            $table->string('SubjectId', 191)->nullable();
-            $table->string('UserRankId', 191)->nullable();
+            $table->uuid('RoleId')->nullable();
+            $table->uuid('SubjectId')->nullable();
+            $table->uuid('UserRankId')->nullable();
             $table->timestamps();
         });
 
@@ -33,7 +33,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->uuid('user_id')->nullable()->index(); // Menggunakan UUID
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

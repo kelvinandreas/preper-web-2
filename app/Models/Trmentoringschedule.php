@@ -16,11 +16,14 @@ class Trmentoringschedule extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'TrMentoringScheduleId',
-        'MentoringSession',
+        'MeetingTime',
         'MenteeUserId',
         'MentorUserId',
-        'UniqueCode'
+        'UniqueCode',
+        'IsDone',
+        'MeetingLink',
+        'SubjectId',
+        'SpecificTopic'
     ];
 
     public static function boot()
@@ -34,11 +37,11 @@ class Trmentoringschedule extends Model
 
     public function mentee()
     {
-        return $this->belongsTo(User::class, 'MenteeUserId', 'UserId');
+        return $this->belongsTo(User::class, 'MenteeUserId', 'id');
     }
 
     public function mentor()
     {
-        return $this->belongsTo(User::class, 'MentorUserId', 'UserId');
+        return $this->belongsTo(User::class, 'MentorUserId', 'id');
     }
 }

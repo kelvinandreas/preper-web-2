@@ -15,23 +15,28 @@ class SessionController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+
         if ($user->RoleId == 1) { // Mentee
-            $previousSessions = TrmentoringSchedule::where('menteeUserId', $user->id)
-                ->where('meetingTIme', '<', now())
+            $previousSessions = TrmentoringSchedule::where('MenteeUserId', $user->id)
+                ->where('MeetingTime', '<', now())
+                ->with('mentor')
                 ->get();
 
-            $upcomingSessions = TrmentoringSchedule::where('menteeUserId', $user->id)
-                ->where('meetingTIme', '>=', now())
+            $upcomingSessions = TrmentoringSchedule::where('MenteeUserId', $user->id)
+                ->where('MeetingTime', '>=', now())
+                ->with('mentor')
                 ->get();
 
             return view('sessions.index', compact('previousSessions', 'upcomingSessions'));
         } else if ($user->RoleId == 2) { // Mentor
-            $previousSessions = TrmentoringSchedule::where('mentorUserId', $user->id)
-                ->where('meetingTIme', '<', now())
+            $previousSessions = TrmentoringSchedule::where('MentorUserId', $user->id)
+                ->where('MeetingTime', '<', now())
+                ->with('mentee')
                 ->get();
 
-            $upcomingSessions = TrmentoringSchedule::where('mentorUserId', $user->id)
-                ->where('meetingTIme', '>=', now())
+            $upcomingSessions = TrmentoringSchedule::where('MentorUserId', $user->id)
+                ->where('MeetingTime', '>=', now())
+                ->with('mentee')
                 ->get();
 
             return view('sessions.index', compact('previousSessions', 'upcomingSessions'));
@@ -61,22 +66,24 @@ class SessionController extends Controller
         ];
 
         $startTime = $batchTimes[$validatedData['batch']];
-        $meetingTime = now()->format('Y-m-d') . ' ' . $startTime . ':00';
+        $meetingTime = now()->addDay()->format('Y-m-d') . ' ' . $startTime . ':00';
 
-        // Verify that the authenticated user exists
         $user = Auth::user();
         if (!$user) {
             return redirect()->back()->with('error', 'User not authenticated.');
         }
-        // dd($user->id);
+
+        // Get the full UUID
+        $userId = $user->id;
+        // dd($userId);
 
         TrMentoringSchedule::create([
             'TrMentoringScheduleId' => (string) Str::uuid(),
             'IsDone' => false,
             'MeetingTime' => $meetingTime,
-            'MeetingLink' => $this->generateMeetingLink(),
-            'MenteeUserId' => $user->id,
+            'MenteeUserId' => $userId,
             'MentorUserId' => null,
+            'MeetingLink' => null,
             'UniqueCode' => $this->getUniqueCode(),
             'SubjectId' => $validatedData['subject'],
             'SpecificTopic' => $validatedData['specificTopic'] ?? '',
@@ -101,7 +108,15 @@ class SessionController extends Controller
 
     private function getUniqueCode()
     {
-        return strtoupper(Str::random(10));
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $charactersLength = strlen($characters);
+        $uniqueCode = '';
+
+        for ($i = 0; $i < 4; $i++) {
+            $uniqueCode .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $uniqueCode;
     }
 
     private function getBatchTime($batch)
@@ -120,13 +135,14 @@ class SessionController extends Controller
 
     public function available()
     {
-        $availableSessions = TrmentoringSchedule::whereNull('mentorUserId')->get();
+        $availableSessions = TrmentoringSchedule::whereNull('MentorUserId')->with('mentee')->get();
         return view('sessions.available', compact('availableSessions'));
     }
 
     public function accept(TrmentoringSchedule $session)
     {
         $session->mentorUserId = Auth::id();
+        $session->meetingLink =  $this->generateMeetingLink();
         $session->save();
         return redirect()->route('sessions.index')->with('status', 'Session accepted successfully.');
     }

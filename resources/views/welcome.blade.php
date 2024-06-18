@@ -9,16 +9,32 @@
     </header>
 
     <div class="h-200 p-10 flex-col">
+        @if(auth()->check())
         <div class = 'text-2xl pb-6 text-justify'>
-            <b>Preper</b> adalah sebuah platform digital yang dirancang untuk memfasilitasi koneksi antara relawan <b>mentor</b> dan <b>mentee</b> berbasis <b>online meeting</b> di <b>Indonesia</b> dalam berbagai bidang. <b>Daftar</b> sekarang dengan mengklik tombol <b>“Chat Sekarang!”</b> dibawah ini dan mengirim pesan WhatsApp ke preper.
+            Selamat Anda sudah masuk dalam Prepper! Klik Tombol "preper" sekarang untuk memulai perjalanan Anda. Daftar menjadi mentor dengan update profile.
         </div>
-        <div class='flex justify-center text-2xl '>
-            <a href='http://wa.me/62812000000' target="_blank">
-                <x-button>
-                    Chat Sekarang!
-                </x-button>
-            </a>
+            <div class="flex justify-center text-2xl">
+                <div>
+                    <a href="{{ route('sessions.index') }}">
+                        <x-button>
+                            Preper Sekarang!
+                        </x-button>
+                    </a>
+                </div>
+            </div>
+        @else
+        <div class = 'text-2xl pb-6 text-justify'>
+            <b>Preper</b> adalah sebuah platform digital yang dirancang untuk memfasilitasi koneksi antara relawan <b>mentor</b> dan <b>mentee</b> berbasis <b>online meeting</b> di <b>Indonesia</b> dalam berbagai bidang. <b>Daftar</b> sekarang dengan mengklik tombol <b>"Daftar Sekarang!”</b> dibawah ini.
         </div>
+            <div class="flex justify-center text-2xl">
+                <a href="{{ route('register') }}">
+                    <x-button>
+                        Daftar Sekarang!
+                    </x-button>
+                </a>
+            </div>
+        <hr />
+        @endif
     </div>
     <div class="h-200 p-10 flex-col">
         <div class = 'text-7xl'>
@@ -57,16 +73,16 @@
             -
         </div>
         <div class="text-2xl pb-6 pt-3 text-center">
-            Ingin menjadi sponsor? <a class="text-accent">Hubungi kami</a>
+            Ingin menjadi sponsor? <a class="text-accent" href="" target="_blank">Hubungi kami</a>
         </div>
     </div>
-    <div class="h-200 flex justify-center bg-accent mb-3 text-white space-x-20">
+    <div class="h-200 flex justify-center bg-accent mb-3 text-white space-x-20" onclick="window.scrollTo(0, 0);">
         <div>
             <div class="text-7xl text-justify pt-10 pl-10">
                 <b>Daftar Sekarang!</b>
             </div>
             <div class="text-2xl pb-6 pt-3 text-justify pt-10 pl-10">
-                Kirim pesan <b>WhatsApp</b> ke <b>preper</b>, isi data form pada link yang diberikan, kamu sudah bergabung dan siap menjadi <b>mentee/mentor relawan</b>.
+                Ayo gabung <b>preper</b> dengan daftar menjadi <b>mentee/mentor relawan</b>, isi data form register dan anda siap menjadi juara <b>preper</b>.
             </div>
         </div>
         <div class="bg-white">

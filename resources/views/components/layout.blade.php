@@ -15,7 +15,7 @@
         <a href="{{ route('home') }}"><p>BERANDA</p></a>
         <a href="{{ route('about') }}"><p>TENTANG KAMI</p></a>
         @auth
-            <a href="{{ route('sessions.index') }}"><p>SESSIONS</p></a>
+            <a href="{{ route('sessions.index') }}"><p>SESI</p></a>
             <div class="relative">
                 <button id="dropdownButton" class="inline-flex items-center px-3 border rounded-xl py-2">
                     <div>{{ Auth::user()->UserName }}</div>

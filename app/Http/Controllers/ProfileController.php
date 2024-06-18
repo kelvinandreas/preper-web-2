@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
@@ -29,12 +28,23 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
-        $user->fill($request->validated());
-        $user->RoleId = $request->input('role') == 'mentee' ? 1 : 2;
-        $user->SubjectId = $request->input('subject');
 
-        if ($user->isDirty('email')) {
+        // Only update email if it's different
+        if ($request->email != $user->email) {
+            $user->email = $request->email;
             $user->email_verified_at = null;
+        }
+
+        // Only update phone number if it's different
+        if ($request->whatsapp != $user->UserPhoneNumber) {
+            $user->UserPhoneNumber = $request->whatsapp;
+        }
+
+        $user->UserName = $request->UserName;
+        $user->RoleId = $request->input('role') == 'mentee' ? 1 : 2; // Assuming 2 is mentor and 1 is mentee
+
+        if ($request->input('role') == 'mentor') {
+            $user->SubjectId = $request->input('subject');
         }
 
         $user->save();

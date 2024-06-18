@@ -1,15 +1,14 @@
-<section>
+<section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg text-gray-900 font-bold">
             {{ __('Update Profile') }}
         </h2>
     </header>
-    <div class="p-10" x-data="{ role: '{{ $user->RoleId == 1 ? 'mentee' : 'mentor' }}' }">
-        <div class="font-bold">Anda ingin menjadi?</div>
-        <div class="mt-5">
+    <div class="" x-data="{ role: '{{ $user->RoleId == 1 ? 'mentee' : 'mentor' }}' }">
+        <div>
             <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
                 @csrf
-                @method('patch')
+                @method('PATCH')
 
                 <div class="role-toggle flex mb-4">
                     <label @click="role = 'mentee'" :class="{ 'bg-btnprimary text-white': role === 'mentee', 'bg-btnaccent text-black': role !== 'mentee' }" class="w-1/2 text-center py-2 cursor-pointer font-bold">
@@ -24,7 +23,7 @@
 
                 <div>
                     <x-input-label for="UserName" :value="__('UserName')" />
-                    <x-text-input id="UserName" name="UserName" type="text" class="mt-1 block w-full border-2 border-accent rounded-lg p-2" :value="old('UserName', $user->UserName)" required autofocus autocomplete="name" />
+                    <x-text-input id="UserName" name="UserName" type="text" class="mt-1 block w-full border-2 rounded-lg p-2" :value="old('UserName', $user->UserName)" required autofocus autocomplete="name" />
                     <x-input-error class="mt-2" :messages="$errors->get('UserName')" />
                 </div>
 
@@ -35,8 +34,8 @@
                 </div>
 
                 <div>
-                    <x-input-label for="whatsapp" :value="__('No WhatsApp')" />
-                    <x-text-input id="whatsapp" name="whatsapp" type="text" class="mt-1 block w-full border-2 border-accent rounded-lg p-2" :value="old('UserPhoneNumber', $user->UserPhoneNumber)" />
+                    <x-input-label for="UserPhoneNumber" :value="__('No WhatsApp')" />
+                    <x-text-input id="UserPhoneNumber" name="UserPhoneNumber" type="text" class="mt-1 block w-full border-2 border-accent rounded-lg p-2" :value="old('UserPhoneNumber', $user->UserPhoneNumber)" />
                     <x-input-error class="mt-2" :messages="$errors->get('UserPhoneNumber')" />
                 </div>
 
@@ -81,6 +80,9 @@
                             class="text-sm text-gray-600"
                         >{{ __('Saved.') }}</p>
                     @endif
+                    <p class="mt-1 text-sm text-gray-600" :style="{ display: role === 'mentor' ? 'block' : 'none' }">
+                        {{ __('Jika anda baru pertama kali menjadi mentor, mohon kirimkan CV anda ke email ') }}<span class="text-blue-500">preperverif@preper.com</span>
+                    </p>
                 </div>
             </form>
         </div>

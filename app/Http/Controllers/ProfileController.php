@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -29,16 +30,24 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
+
+        $currentRole = $user->RoleId;
         $user->fill($request->validated());
-        $user->RoleId = $request->input('role') == 'mentee' ? 1 : 2;
+
+        $newRole = $request->input('role') == 'mentee' ? 1 : 2;
+        $user->RoleId = $newRole;
+
         $user->SubjectId = $request->input('subject');
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
-        $user->save();
+        if ($currentRole != $newRole) {
+            $user->isValid = false;
+        }
 
+        $user->save();
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

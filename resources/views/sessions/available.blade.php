@@ -8,7 +8,14 @@
     </header>
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-            <h2 class="text-xl font-bold mb-4">Available Sessions</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Available Sessions</h2>
+                @if (!auth()->user()->isValid)
+                    <p class="text-sm text-red-500">
+                        *Anda belum terverifikasi, sehingga anda belum bisa menerima sesi mentoring.
+                    </p>
+                @endif
+            </div>
             @forelse ($availableSessions as $session)
                 @php
                     $meetingStart = \Carbon\Carbon::parse($session->MeetingTime);
@@ -26,7 +33,14 @@
                     </div>
                     <form action="{{ route('sessions.accept', $session) }}" method="POST">
                         @csrf
-                        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Accept</button>
+                        <button type="submit"
+                                class="py-2 px-4 rounded
+                                       {{ auth()->user()->isValid ? 'bg-green-500 text-white' : 'bg-gray-500 text-white cursor-not-allowed' }}"
+                                @if (!auth()->user()->isValid)
+                                    disabled
+                                @endif>
+                            Accept
+                        </button>
                     </form>
                 </div>
             @empty

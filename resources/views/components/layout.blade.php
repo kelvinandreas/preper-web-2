@@ -29,7 +29,7 @@
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700">Profile</a>
                         <form method="POST" action="{{ route('logout') }}" class="block">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700">Log Out</button>
+                            <button type="submit" class="w-full px-4 py-2 text-sm text-gray-700">Log Out</button>
                         </form>
                     </div>
                 </div>

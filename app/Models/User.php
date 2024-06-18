@@ -60,4 +60,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Msrole::class, 'RoleId', 'RoleId');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Mssubject::class, 'SubjectId', 'SubjectId');
+    }
+
+    public function rank()
+    {
+        return $this->belongsTo(Msuserrank::class, 'UserRankId', 'UserRankId');
+    }
 }

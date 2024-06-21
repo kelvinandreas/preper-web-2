@@ -10,7 +10,7 @@
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Sesi Tersedia</h2>
-                @if (!auth()->user()->isValid)
+                @if (!auth()->user()->IsValid)
                     <p class="text-sm text-red-500">
                         *Anda belum terverifikasi, sehingga anda belum bisa menerima sesi mentoring.
                     </p>
@@ -35,8 +35,8 @@
                         @csrf
                         <button type="submit"
                                 class="py-2 px-4 rounded
-                                       {{ auth()->user()->isValid ? 'bg-green-500 text-white' : 'bg-gray-500 text-white cursor-not-allowed' }}"
-                                @if (!auth()->user()->isValid)
+                                       {{ auth()->user()->IsValid ? 'bg-green-500 text-white' : 'bg-gray-500 text-white cursor-not-allowed' }}"
+                                @if (!auth()->user()->IsValid)
                                     disabled
                                 @endif>
                             Terima

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -85,7 +86,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Hendrik', 'phone' => '08127894563', 'email' => 'hendrik@gmail.com', 'subjectId' => 12],
             ['name' => 'Ivan', 'phone' => '08123456780', 'email' => 'ivan@gmail.com', 'subjectId' => 6],
             ['name' => 'Kevin', 'phone' => '08129871234', 'email' => 'kevin@gmail.com', 'subjectId' => 7],
-            ['name' => 'Dimas', 'phone' => '08123451234', 'email' => 'dimas@gmail.com', 'subjectId' => 10],
+            ['name' => 'Dimas', 'phone' => '08123451234', 'email' => 'dimas@gmail.com', 'subjectId' => 1],
         ];
 
         $users2 = [];
@@ -155,7 +156,7 @@ class DatabaseSeeder extends Seeder
                 'UserPhoneNumber' => '08122346789',
                 'email' => 'budi@gmail.com',
                 'password' => Hash::make('12312312'),
-                'IsValid' => 0,
+                'IsValid' => 1,
                 'UserPoint' => 100,
                 'RoleId' => 2,
                 'SubjectId' => 1,
@@ -182,8 +183,8 @@ class DatabaseSeeder extends Seeder
                 'MenteeUserId' => $menteeId2,
                 'MentorUserId' => $mentorId,
                 'UniqueCode' => 'D1A2',
-                'MeetingTime' => '2024-06-19 17:20:00',
-                'MeetingLink' => null,
+                'MeetingTime' => now()->addDay()->format('Y-m-d') . ' 17:20:00',
+                'MeetingLink' => 'https://meet.google.com/Kia1NfQLB',
                 'SubjectId' => 1,
                 'SpecificTopic' => 'Belajar PHP',
                 'IsDone' => 0,
@@ -191,10 +192,22 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'TrMentoringScheduleId' => Str::uuid()->toString(),
-                'MenteeUserId' => $menteeId,
+                'MenteeUserId' => $menteeId3,
                 'MentorUserId' => $mentorId,
+                'UniqueCode' => 'B4D6',
+                'MeetingTime' => now()->addDay()->format('Y-m-d') . ' 09:20:00',
+                'MeetingLink' => 'https://meet.google.com/Kou4NfQUB',
+                'SubjectId' => 1,
+                'SpecificTopic' => 'Belajar CSS',
+                'IsDone' => 0,
+                'MenteeReview' => null,
+            ],
+            [
+                'TrMentoringScheduleId' => Str::uuid()->toString(),
+                'MenteeUserId' => $menteeId,
+                'MentorUserId' => null,
                 'UniqueCode' => 'V3B4',
-                'MeetingTime' => '2024-06-19 15:20:00',
+                'MeetingTime' => now()->addDay()->format('Y-m-d') . ' 15:20:00',
                 'MeetingLink' => null,
                 'SubjectId' => 1,
                 'SpecificTopic' => 'Belajar Laravel',
@@ -203,10 +216,22 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'TrMentoringScheduleId' => Str::uuid()->toString(),
+                'MenteeUserId' => $menteeId3,
+                'MentorUserId' => null,
+                'UniqueCode' => 'G7H1',
+                'MeetingTime' => now()->addDay()->format('Y-m-d') . ' 13:20:00',
+                'MeetingLink' => null,
+                'SubjectId' => 1,
+                'SpecificTopic' => 'Belajar React',
+                'IsDone' => 0,
+                'MenteeReview' => null,
+            ],
+            [
+                'TrMentoringScheduleId' => Str::uuid()->toString(),
                 'MenteeUserId' => $menteeId,
                 'MentorUserId' => $mentorId,
                 'UniqueCode' => 'O1A2',
-                'MeetingTime' => '2024-06-19 11:20:00',
+                'MeetingTime' => now()->addDay()->format('Y-m-d') . ' 11:20:00',
                 'MeetingLink' => 'https://meet.google.com/Abd1NfQLB',
                 'SubjectId' => 1,
                 'SpecificTopic' => 'Belajar Web',

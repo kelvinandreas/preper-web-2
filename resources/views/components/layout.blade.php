@@ -33,6 +33,9 @@
                 <div id="dropdownMenu" class="absolute z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right right-0 hidden">
                     <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700">Profile</a>
+                        @if (auth()->user()->RoleId == '2')
+                        <a href="" class="block px-4 py-2 text-sm text-gray-700"><p>Request Certificate</p></a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}" class="block">
                             @csrf
                             <button type="submit" class="w-full px-4 py-2 text-sm text-gray-700">Log Out</button>

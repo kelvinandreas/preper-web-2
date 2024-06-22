@@ -40,7 +40,10 @@
                     @if ($session->MeetingLink)
                         <a href="{{ $session->MeetingLink }}" target="_blank" class="inline-block bg-green-500 text-white py-2 px-4 rounded">Join Meeting</a>
                     @else
+                        <div>
+                            <button class="inline-block bg-red-500 text-white py-2 px-4 rounded cursor-not-allowed" disabled>Batal Sesi</button>
                         <button class="inline-block bg-gray-500 text-white py-2 px-4 rounded cursor-not-allowed" disabled>Join Meeting</button>
+                        </div>
                     @endif
                 </div>
             @empty

@@ -38,6 +38,7 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <!-- Button to open edit modal -->
+                            <button onclick="" class="bg-green-400 text-white py-2 px-4 rounded">View Activity</button>
                             <button onclick="openModal('modal-mentor-{{ $mentor->id }}')" class="bg-blue-500 text-white py-2 px-4 rounded">Edit</button>
                             <form action="{{ route('user.settings.delete', $mentor->id) }}" method="POST">
                                 @csrf
@@ -89,14 +90,14 @@
                                 <i class="fas fa-phone mr-2"></i>
                                 <p>{{ $mentee->UserPhoneNumber }}</p>
                             </div>
-                            <div class="flex items-center">
+                            {{-- <div class="flex items-center">
                                 <i class="fas fa-coins mr-2"></i>
                                 <p>{{ $mentee->UserPoint }}</p>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="flex items-center space-x-2">
-                            <!-- Button to open edit modal -->
-                            <button onclick="openModal('modal-mentee-{{ $mentee->id }}')" class="bg-blue-500 text-white py-2 px-4 rounded">Edit</button>
+                            {{-- <!-- Button to open edit modal -->
+                            <button onclick="openModal('modal-mentee-{{ $mentee->id }}')" class="bg-blue-500 text-white py-2 px-4 rounded">Edit</button> --}}
                             <form action="{{ route('user.settings.delete', $mentee->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
